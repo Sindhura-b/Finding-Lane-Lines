@@ -28,7 +28,7 @@ This step involved applying the concepts taught before starting this project. Fi
 **Step 2:** In order to draw a single line on the left and right lanes, I created two new functions *'detect_left_right()'* and *'avg_lanes()'*. The function *'detect_left_right()'* takes the output data from hough transform and separates it into the data corresponding to left lane and right lane. This is done by identifying the slope of line connecting points from hough transform. Once I had two sets of points(left and right), I utilized *'cv2.fitline()'* function to fit a line through points in each data set. The output of this function gives the slope and intercept of each fitted line. In the function *'avg_lanes()'*, the y-coordinates of the start and end points of each line are approximated to find corresponding x-coordinates using the slope and intercept data from *'detect_left_right()'* fucntion.
 Both these functions are called from the main function *'pipeline()'*. Finally, the extrapolated lines on the left and right lane are drawn through *'draw_lines()'* function, which takes the start and end co-ordinates of the lines from *'avg_lanes()'* function as input.
 
-**Step 3:** In the final stage, the parameters of canny edge detection and hough transform are tuned to obtain better results when the algorithm developed in step 1 and step 2 is applied on video.
+**Step 3:** In the final stage, the parameters of canny edge detection and hough transform are tuned to obtain better results when the algorithm developed in step 1 and step 2 is applied on videos.
 
 The images below are the output of the pipeline when tested on images in folder-'test_images'.
 
