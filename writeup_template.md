@@ -6,14 +6,6 @@ The goals / steps of this project are the following:
 * Reflect on your work in a written
 
 
-[//]: # (Image References)
-
-[image1]: ./solidWhiteCurve_output.jpg "solidWhiteCurve_output"
-[image2]: ./solidWhiteRight_output.jpg "solidWhiteRight_output"
-[image3]: ./solidYellowCurve_output.jpg "solidYellowCurve_output"
-[image4]: ./solidYellowCurve2_output.jpg "solidYellowCurve2_output"
-[image5]: ./solidYellowLeft_output.jpg "solidYellowLeft_output"
-[image6]: ./whiteCarLaneSwitch_output.jpg "whiteCarLaneSwitch_output"
 [image7]: ./solidWhiteRight.gif "solidWhiteRight"
 [image8]: ./solidYellowLeft.gif "solidYellowLeft"
 
@@ -32,12 +24,17 @@ Both these functions are called from the main function *'pipeline()'*. Finally, 
 
 The images below are the output of the pipeline when tested on images in folder-'test_images'.
 
-<img src="./solidWhiteCurve_output.jpg" width="350" height="225"> <img src="./solidWhiteRight_output.jpg" width="350" height="225">
+<img src="./solidWhiteCurve_output.png" width="378" height="223"> 
 
-<img src="./solidYellowCurve_output.jpg" width="350" height="225"> <img src="./solidYellowCurve2_output.jpg" width="350" height="225">
+<img src="./solidWhiteRight_output.png" width="378" height="223">
 
-<img src="./solidYellowLeft_output.jpg" width="350" height="225"> <img src="./whiteCarLaneSwitch_output.jpg" width="350" height="225">
+<img src="./solidYellowCurve_output.png" width="378" height="223">
 
+<img src="./solidYellowCurve2_output.png" width="378" height="223">
+
+<img src="./solidYellowLeft_output.png" width="378" height="223"> 
+
+<img src="./whiteCarLaneSwitch_output.png" width="378" height="223">
 
 Below are the results of the pipeline when tested on videos in folder- 'test_videos'.
 
