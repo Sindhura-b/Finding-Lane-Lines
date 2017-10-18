@@ -56,3 +56,5 @@ Also, this code requires manually specifying the vertices of the polygon that en
 ### 3. Possible improvements to the pipeline
 
 One possible improvement would be to further tune parameters to get the code work on the challenge video with shadows. However, this is not the ultimate solution as tuned parameters might not yield required result on different frames. Instead, we could use existing algorithms like PROSAC, RANSAC or KALMANSAC, which could iteratively estimate the model parameters and eliminate outliers.
+
+Utilizing state-of-the-art edge detection techniques instead of canny edge detetction could improve the results.
