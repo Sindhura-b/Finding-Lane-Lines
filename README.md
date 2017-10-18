@@ -1,56 +1,60 @@
-# **Finding Lane Lines on the Road** 
-[![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
+# **Finding Lane Lines on the Road**
 
-<img src="examples/laneLines_thirdPass.jpg" width="480" alt="Combined Image" />
+---
+The goals / steps of this project are the following:
+* Make a pipeline that finds lane lines on the road
+* Reflect on your work in a written
 
-Overview
+
+[//]: # (Image References)
+
+[image1]: ./solidWhiteCurve_output.jpg "solidWhiteCurve_output"
+[image2]: ./solidWhiteRight_output.jpg "solidWhiteRight_output"
+[image3]: ./solidYellowCurve_output.jpg "solidYellowCurve_output"
+[image4]: ./solidYellowCurve2_output.jpg "solidYellowCurve2_output"
+[image5]: ./solidYellowLeft_output.jpg "solidYellowLeft_output"
+[image6]: ./whiteCarLaneSwitch_output.jpg "whiteCarLaneSwitch_output"
+[image7]: ./solidWhiteRight.gif "solidWhiteRight"
+[image8]: ./solidYellowLeft.gif "solidYellowLeft"
+
 ---
 
-When we drive, we use our eyes to decide where to go.  The lines on the road that show us where the lanes are act as our constant reference for where to steer the vehicle.  Naturally, one of the first things we would like to do in developing a self-driving car is to automatically detect lane lines using an algorithm.
+### Reflections
 
-In this project you will detect lane lines in images using Python and OpenCV.  OpenCV means "Open-Source Computer Vision", which is a package that has many useful tools for analyzing images.  
+### 1. Finding the lane lines in the image
+**Step 1:**
+This step involved applying the concepts taught before starting this project. First, I converted the images to grayscale, then I applied gaussian smoothing to suppress noise and avoid spurious gradients by averaging. Also, I used openCV *'canny'* function to find the gradient of the blurred grey scale image. Second, I defined a four sided polygon region by manually specifying the vertices in such a way that the polygon encloses only those pixels where we expect to find lane lines and masks everything else. Then I applied hough transform to the masked image(output of canny) to find the lane lines. Each function is performed by calling corresponding helper functions from the main function *'pipeline()'*.
 
-To complete the project, two files will be submitted: a file containing project code and a file containing a brief write up explaining your solution. We have included template files to be used both for the [code](https://github.com/udacity/CarND-LaneLines-P1/blob/master/P1.ipynb) and the [writeup](https://github.com/udacity/CarND-LaneLines-P1/blob/master/writeup_template.md).The code file is called P1.ipynb and the writeup template is writeup_template.md 
+**Step 2:** In order to draw a single line on the left and right lanes, I created two new functions *'detect_left_right()'* and *'avg_lanes()'*. The function *'detect_left_right()'* takes the output data from hough transform and separates it into the data corresponding to left lane and right lane. This is done by identifying the slope of line connecting points from hough transform. Once I had two sets of points(left and right), I utilized *'cv2.fitline()'* function to fit a line through points in each data set. The output of this function gives the slope and intercept of each fitted line. In the function *'avg_lanes()'*, the y-coordinates of the start and end points of each line are approximated to find corresponding x-coordinates using the slope and intercept data from *'detect_left_right()'* fucntion.
+Both these functions are called from the main function *'pipeline()'*. Finally, the extrapolated lines on the left and right lane are drawn through *'draw_lines()'* function, which takes the start and end co-ordinates of the lines from *'avg_lanes()'* function as input.
 
-To meet specifications in the project, take a look at the requirements in the [project rubric](https://review.udacity.com/#!/rubrics/322/view)
+**Step 3:** In the final stage, the parameters of canny edge detection and hough transform are tuned to obtain better results when the algorithm developed in step 1 and step 2 is applied on videos.
 
+The images below are the output of the pipeline when tested on images in folder-'test_images'.
 
-Creating a Great Writeup
----
-For this project, a great writeup should provide a detailed response to the "Reflection" section of the [project rubric](https://review.udacity.com/#!/rubrics/322/view). There are three parts to the reflection:
+<img src="./solidWhiteCurve_output.jpg" width="350" height="225"> <img src="./solidWhiteRight_output.jpg" width="350" height="225">
 
-1. Describe the pipeline
+<img src="./solidYellowCurve_output.jpg" width="350" height="225"> <img src="./solidYellowCurve2_output.jpg" width="350" height="225">
 
-2. Identify any shortcomings
-
-3. Suggest possible improvements
-
-We encourage using images in your writeup to demonstrate how your pipeline works.  
-
-All that said, please be concise!  We're not looking for you to write a book here: just a brief description.
-
-You're not required to use markdown for your writeup.  If you use another method please just submit a pdf of your writeup. Here is a link to a [writeup template file](https://github.com/udacity/CarND-LaneLines-P1/blob/master/writeup_template.md). 
+<img src="./solidYellowLeft_output.jpg" width="350" height="225"> <img src="./whiteCarLaneSwitch_output.jpg" width="350" height="225">
 
 
-The Project
----
+Below are the results of the pipeline when tested on videos in folder- 'test_videos'.
 
-## If you have already installed the [CarND Term1 Starter Kit](https://github.com/udacity/CarND-Term1-Starter-Kit/blob/master/README.md) you should be good to go!   If not, you should install the starter kit to get started on this project. ##
+![Alt Text](./solidWhiteRight.gif)
 
-**Step 1:** Set up the [CarND Term1 Starter Kit](https://classroom.udacity.com/nanodegrees/nd013/parts/fbf77062-5703-404e-b60c-95b78b2f3f9e/modules/83ec35ee-1e02-48a5-bdb7-d244bd47c2dc/lessons/8c82408b-a217-4d09-b81d-1bda4c6380ef/concepts/4f1870e0-3849-43e4-b670-12e6f2d4b7a7) if you haven't already.
+![Alt Text](./solidYellowLeft.gif)
 
-**Step 2:** Open the code in a Jupyter Notebook
+### 2. Potential shortcomings with current pipeline
 
-You will complete the project code in a Jupyter notebook.  If you are unfamiliar with Jupyter Notebooks, check out <A HREF="https://www.packtpub.com/books/content/basics-jupyter-notebook-and-python" target="_blank">Cyrille Rossant's Basics of Jupyter Notebook and Python</A> to get started.
+Although the proposed algorithm worked well on videos with solid white lanes and solid yellow lanes after parameter tuning, similar performance has not been observed on the optional challenge video. This implies that this pipeline is not robust enough to work on the regions of lanes covered with shadows.
 
-Jupyter is an Ipython notebook where you can run blocks of code and see results interactively.  All the code for this project is contained in a Jupyter notebook. To start Jupyter in your browser, use terminal to navigate to your project directory and then run the following command at the terminal prompt (be sure you've activated your Python 3 carnd-term1 environment as described in the [CarND Term1 Starter Kit](https://github.com/udacity/CarND-Term1-Starter-Kit/blob/master/README.md) installation instructions!):
+Another shortcoming of this code is that it fails to work on those videos where the road has ups and downs.
 
-`> jupyter notebook`
+Also, this code requires manually specifying the vertices of the polygon that encloses lane lines. Such code fails in the cases when car changes the lane.
 
-A browser window will appear showing the contents of the current directory.  Click on the file called "P1.ipynb".  Another browser window will appear displaying the notebook.  Follow the instructions in the notebook to complete the project.  
+### 3. Possible improvements to the pipeline
 
-**Step 3:** Complete the project and submit both the Ipython notebook and the project writeup
+One possible improvement would be to further tune parameters to get the code work on the challenge video with shadows. However, this is not the ultimate solution as tuned parameters might not yield required result on different frames. Instead, we could use existing algorithms like PROSAC, RANSAC or KALMANSAC, which could iteratively estimate the model parameters and eliminate outliers.
 
-## How to write a README
-A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
-
+Utilizing state-of-the-art edge detection techniques instead of canny edge detetction could improve the results.
